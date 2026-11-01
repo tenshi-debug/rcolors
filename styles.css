@@ -1,0 +1,145 @@
+:root {
+  --rose: #d62839;          /* lo cambia el JavaScript */
+  --fondo: #10201c;
+  --fondo-2: #1a322b;
+  --texto: #f3ece0;
+  --papel: #e8dbc2;
+  --hoja: #3f7d58;
+}
+
+* { box-sizing: border-box; }
+
+html, body { height: 100%; }
+
+body {
+  margin: 0;
+  display: grid;
+  place-items: center;
+  color: var(--texto);
+  font-family: "Nunito", system-ui, sans-serif;
+  background: radial-gradient(ellipse at 50% 30%, var(--fondo-2), var(--fondo) 70%);
+  padding: 24px;
+}
+
+main {
+  width: min(100%, 460px);
+  text-align: center;
+}
+
+h1 {
+  font-family: "Fraunces", Georgia, serif;
+  font-weight: 600;
+  font-size: clamp(2rem, 7vw, 3rem);
+  margin: 0 0 8px;
+  letter-spacing: -0.01em;
+}
+
+.sub {
+  margin: 0 0 28px;
+  opacity: .8;
+}
+
+/* ---------- Botón ---------- */
+.btn {
+  font: inherit;
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: #fff;
+  background: color-mix(in srgb, var(--rose) 85%, black);
+  border: 0;
+  border-radius: 999px;
+  padding: 14px 34px;
+  cursor: pointer;
+  box-shadow: 0 8px 24px color-mix(in srgb, var(--rose) 45%, transparent);
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+.btn:hover { transform: translateY(-2px); }
+.btn:active { transform: translateY(0) scale(.98); }
+.btn:focus-visible,
+.muestras button:focus-visible,
+#color:focus-visible { outline: 3px solid var(--texto); outline-offset: 3px; }
+
+/* ---------- Ramo ---------- */
+.escenario { margin-top: 20px; }
+.escenario[hidden] { display: none; }
+
+.ramo {
+  width: min(100%, 360px);
+  height: auto;
+  display: block;
+  margin: 0 auto;
+  overflow: visible;
+}
+
+/* Colores de la rosa: todos salen de --rose */
+.capa-ext path, .capa-ext use { fill: color-mix(in srgb, var(--rose) 62%, black); }
+.capa-med path, .capa-med use { fill: var(--rose); }
+.capa-int path, .capa-int use { fill: color-mix(in srgb, var(--rose) 70%, white); }
+#rosa path { stroke: color-mix(in srgb, var(--rose) 45%, black); stroke-width: 1.6; }
+.centro { fill: color-mix(in srgb, var(--rose) 80%, black); }
+.espiral { fill: none; stroke: color-mix(in srgb, var(--rose) 50%, black); stroke-width: 1; stroke-linecap: round; }
+
+.tallo { fill: none; stroke: #2c6444; stroke-width: 4; stroke-linecap: round; }
+.hoja  { fill: var(--hoja); }
+.papel { fill: var(--papel); }
+.pliegue { fill: none; stroke: #c9b896; stroke-width: 2; stroke-linecap: round; }
+.lazo  { fill: color-mix(in srgb, var(--rose) 80%, black); }
+
+/* ---------- Animación al crear ---------- */
+.flor {
+  animation: florecer .7s cubic-bezier(.2, 1.4, .4, 1) both;
+  animation-delay: calc(var(--i) * 140ms + 300ms);
+}
+.tallo {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: crecer .6s ease-out forwards;
+  animation-delay: calc(var(--i) * 80ms);
+}
+.base { animation: aparecer .5s ease-out both; }
+
+@keyframes florecer { from { transform: scale(0) rotate(-40deg); opacity: 0; } to { transform: scale(1) rotate(0); opacity: 1; } }
+@keyframes crecer   { to { stroke-dashoffset: 0; } }
+@keyframes aparecer { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+
+/* ---------- Controles ---------- */
+.controles {
+  margin-top: 22px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 14px 18px;
+}
+
+.selector { display: flex; align-items: center; gap: 10px; font-weight: 600; }
+
+#color {
+  width: 48px; height: 36px;
+  padding: 0; border: 2px solid var(--texto);
+  border-radius: 10px; background: none; cursor: pointer;
+}
+
+output {
+  font-variant-numeric: tabular-nums;
+  background: rgba(255,255,255,.08);
+  padding: 6px 12px;
+  border-radius: 8px;
+  min-width: 84px;
+}
+
+.muestras { display: flex; gap: 10px; width: 100%; justify-content: center; }
+.muestras button {
+  width: 30px; height: 30px;
+  border-radius: 50%;
+  border: 2px solid rgba(255,255,255,.5);
+  background: var(--c);
+  cursor: pointer;
+  transition: transform .12s ease;
+}
+.muestras button:hover { transform: scale(1.15); }
+
+@media (prefers-reduced-motion: reduce) {
+  .flor, .tallo, .base, .btn { animation: none; transition: none; }
+  .tallo { stroke-dashoffset: 0; }
+}
